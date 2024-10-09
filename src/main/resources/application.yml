@@ -2,7 +2,7 @@ spring:
   application:
     name: api-gateway
   config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+    import: optional:configserver:${CONFIG_SERVER_URL:http://34.148.165.92/config}
   cloud:
     gateway:
       routes:
@@ -24,9 +24,24 @@ spring:
             - Path=/api/customer/**
           filters:
             - StripPrefix=2
-server:
-  port: 9898
+zuul:
+  prefix: /api
+  ignoredServices: '*'
+  routes:
+    vets-service: /vet/**
+    visits-service: /visit/**
+    customers-service: /customer/**
+    api-gateway: /gateway/**
 
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: 2048
+
+# Internationalization
+spring.messages.basename: messages/messages
 
 
 ---
@@ -34,4 +49,9 @@ spring:
   config:
     activate:
       on-profile: docker
-    import: configserver:http://config-server:8888
+  zipkin:
+    baseUrl: http://tracing-server:9411
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://34.148.165.92/
