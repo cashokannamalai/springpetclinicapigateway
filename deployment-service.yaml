@@ -51,7 +51,7 @@ spec:
     - host: ""
       http:
         paths:
-          - path: /api/gateway
+          - path: /api
             pathType: Prefix
             backend:
               service:
