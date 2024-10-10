@@ -58,21 +58,21 @@ spec:
                 name: apigateway-service
                 port:
                   number: 80
-          - path: /api/visit/**
+          - path: /api/visit/*
             pathType: Prefix
             backend:
               service:
                 name: apigateway-service
                 port:
                   number: 80
-          - path: /api/customer/**
+          - path: /api/customer/*
             pathType: Prefix
             backend:
               service:
                 name: apigateway-service
                 port:
                   number: 80
-          - path: /api/gateway/**
+          - path: /api/gateway/*
             pathType: Prefix
             backend:
               service:
