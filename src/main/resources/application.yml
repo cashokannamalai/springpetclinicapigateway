@@ -26,9 +26,24 @@ spring:
             - StripPrefix=2
 
 
+zuul:
+  prefix: /api
+  ignoredServices: '*'
+  routes:
+    vets-service: /vet/**
+    visits-service: /visit/**
+    customers-service: /customer/**
+    api-gateway: /gateway/**
+
 server:
-  port: 9898
-  
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+    min-response-size: 2048
+
+# Internationalization
+spring.messages.basename: messages/messages
 
 
 ---
@@ -41,4 +56,4 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://34.148.165.92/
+      defaultZone: http://34.148.165.92/eureka/
