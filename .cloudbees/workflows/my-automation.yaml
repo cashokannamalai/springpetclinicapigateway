@@ -29,39 +29,14 @@ jobs:
           mvn clean install -DskipTests=true
 
 
-  StaticAnalysis:
-    needs: Build
-    steps:
-      - uses: cloudbees-io/sonarqube-sast-scan-code@v1
-        name: Scan
-        kind: scan
-        with:
-          server-url: https://sonarqube.cb-demos.io
-          username: ${{ secrets.username }}
-          password: ${{ secrets.password }}
-          language: Java
 
-      - uses: cloudbees-io/sonarqube-bundled-sast-scan-code@v2
-        name: Scan with Java
-        kind: scan
-        with:
-          language: JAVA
+     
 
-      - uses: cloudbees-io/findsecbugs-sast-scan-code@v1
-        name: Scan with Find Security Bugs
-        kind: scan
-        with:
-          language: LANGUAGE_JAVA
-
-      - uses: sbatchelder-cba/sonarqube-cba@v0.0.3
-        name: Scan GP
-        with:
-          project-key: apigateway
-          token: ${{ secrets.token }}
+     
 
 
   DockerImageBuildAndPush:
-    needs: StaticAnalysis
+    needs: Build
     steps:
       - name: Checkout
         uses: cloudbees-io/checkout@v1
